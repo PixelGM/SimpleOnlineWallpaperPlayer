@@ -1,16 +1,53 @@
-// define an array of YouTube video IDs
-var videos = [
-    'LXb3EKWsInQ' // video 1
+var videos = ['LXb3EKWsInQ'];
+var randomIndex = Math.floor(Math.random() * videos.length);
+var videoUrl = 'https://www.youtube.com/embed/' + videos[randomIndex] + '?autoplay=1&loop=1&controls=0&mute=1&modestbranding=1';
+var video = document.getElementById('video');
+video.src = videoUrl;
 
-  ];
-  
-  // generate a random index into the videos array
-  var randomIndex = Math.floor(Math.random() * videos.length);
-  
-  // construct the YouTube embed URL with the selected video ID and the mute parameter
-  var videoUrl = 'https://www.youtube.com/embed/' + videos[randomIndex] + '?autoplay=1&loop=1&controls=0&mute=1&modestbranding=1';
-  
-  // set the iframe src attribute to the video URL
-  var video = document.getElementById('video');
-  video.src = videoUrl;
-  
+var fullscreenButton = document.getElementById('fullscreen-button');
+
+if (fullscreenButton) {
+  fullscreenButton.addEventListener('click', function() {
+    if (document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled) {
+      if (video.requestFullscreen) {
+        video.requestFullscreen();
+      } else if (video.webkitRequestFullscreen) {
+        video.webkitRequestFullscreen();
+      } else if (video.mozRequestFullScreen) {
+        video.mozRequestFullScreen();
+      } else if (video.msRequestFullscreen) {
+        video.msRequestFullscreen();
+      }
+    }
+  });
+}
+
+var placeholder = document.createElement('div');
+
+document.addEventListener('fullscreenchange', function() {
+  if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+    if (fullscreenButton) {
+      video.parentNode.insertBefore(placeholder, fullscreenButton);
+
+      fullscreenButton.parentNode.removeChild(fullscreenButton);
+    }
+  } else {
+    if (fullscreenButton && placeholder.parentNode) {
+      placeholder.parentNode.insertBefore(fullscreenButton, placeholder.nextSibling);
+
+      placeholder.parentNode.removeChild(placeholder);
+
+      fullscreenButton.addEventListener('click', function() {
+        if (video.requestFullscreen) {
+          video.requestFullscreen();
+        } else if (video.webkitRequestFullscreen) {
+          video.webkitRequestFullscreen();
+        } else if (video.mozRequestFullScreen) {
+          video.mozRequestFullScreen();
+        } else if (video.msRequestFullscreen) {
+          video.msRequestFullscreen();
+        }
+      });
+    }
+  }
+});
