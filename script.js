@@ -1,4 +1,4 @@
-var videos = ['LXb3EKWsInQ'];
+var videos = ['ArR-ctuKraE'];
 var randomIndex = Math.floor(Math.random() * videos.length);
 var videoUrl = 'https://www.youtube.com/embed/' + videos[randomIndex] + '?autoplay=1&loop=1&controls=0&mute=1&modestbranding=1';
 var video = document.getElementById('video');
